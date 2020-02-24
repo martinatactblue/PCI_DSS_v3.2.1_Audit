@@ -23,9 +23,9 @@ get_site_name() {
 
 create_archive() {
     if [[ ${DEBUG_LEVEL} -ge ${ARCHIVE_DEBUG_LEVEL} ]]; then
-        tar czvf ${PCI_AUDIT_ROOT_DIR}/${PCI_AUDIT_SITENAME}-${HOSTNAME}-${PCI_AUDIT_REQUIREMENT}-${PCI_AUDIT_DATE}.tgz ${PCI_AUDIT_REQUIREMENT}
+        tar czvf ${PCI_AUDIT_ROOT_DIR}/${PCI_AUDIT_SITENAME}-${HOSTNAME}-${PCI_AUDIT_REQUIREMENT}-${PCI_AUDIT_DATE}.tgz Req_${PCI_AUDIT_REQUIREMENT}
     else
-        tar czf ${PCI_AUDIT_ROOT_DIR}/${PCI_AUDIT_SITENAME}-${HOSTNAME}-${PCI_AUDIT_REQUIREMENT}-${PCI_AUDIT_DATE}.tgz ${PCI_AUDIT_REQUIREMENT}
+        tar czf ${PCI_AUDIT_ROOT_DIR}/${PCI_AUDIT_SITENAME}-${HOSTNAME}-${PCI_AUDIT_REQUIREMENT}-${PCI_AUDIT_DATE}.tgz Req_${PCI_AUDIT_REQUIREMENT}
     fi
 }
 
@@ -56,13 +56,13 @@ _debug 1 "Current script: $0"
 
 export PCI_AUDIT_SCRIPT_DIR=$(get_script_dir)
 
-export PCI_AUDIT_REQUIREMENT=Req_8
-if [[ ! -d ${PCI_AUDIT_TEMPDIR}/${PCI_AUDIT_REQUIREMENT} ]]; then
-    mkdir ${PCI_AUDIT_TEMPDIR}/${PCI_AUDIT_REQUIREMENT}
+export PCI_AUDIT_REQUIREMENT=8
+if [[ ! -d ${PCI_AUDIT_TEMPDIR}/Req_${PCI_AUDIT_REQUIREMENT} ]]; then
+    mkdir ${PCI_AUDIT_TEMPDIR}/Req_${PCI_AUDIT_REQUIREMENT}
 fi
 
-cd ${PCI_AUDIT_REQUIREMENT}
-./${PCI_AUDIT_REQUIREMENT}.sh
+cd Req_${PCI_AUDIT_REQUIREMENT}
+./Req_${PCI_AUDIT_REQUIREMENT}.sh
 cd $(dirname $(get_script_dir))
 
 _debug 1 "Current location: $(get_script_dir)"

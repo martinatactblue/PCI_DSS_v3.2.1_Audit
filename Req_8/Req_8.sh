@@ -30,13 +30,13 @@ set -euo pipefail
 
 source ${PCI_AUDIT_SCRIPT_DIR}/helpers.sh
 
-PCI_AUDIT_OUTPUT_DIR=${PCI_AUDIT_TEMPDIR}/${PCI_AUDIT_REQUIREMENT}
+PCI_AUDIT_OUTPUT_DIR=${PCI_AUDIT_TEMPDIR}/Req_${PCI_AUDIT_REQUIREMENT}
 
 _debug 1 "Current location: $(get_script_dir)"
 _debug 1 "Current script: $0"
 
 _info "--------------------------------------------------"
-_info "Gathering information for ${PCI_AUDIT_REQUIREMENT}"
+_info "Gathering information for Requirement ${PCI_AUDIT_REQUIREMENT}"
 _info "--------------------------------------------------"
 
 _info "--------------------------------------------------"
@@ -49,13 +49,13 @@ _info  "Capturing Currently Connected Users"
 _info "--------------------------------------------------"
 w >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Currently_Connected_Users.txt
 
-export PCI_AUDIT_SUB_REQUIREMENT=8.1
-if [[ ! -d ${PCI_AUDIT_TEMPDIR}/${PCI_AUDIT_REQUIREMENT}/${PCI_AUDIT_SUB_REQUIREMENT} ]]; then
-    mkdir ${PCI_AUDIT_TEMPDIR}/${PCI_AUDIT_REQUIREMENT}/${PCI_AUDIT_SUB_REQUIREMENT}
+export PCI_AUDIT_SUB_REQUIREMENT=1
+if [[ ! -d ${PCI_AUDIT_TEMPDIR}/Req_${PCI_AUDIT_REQUIREMENT}/${PCI_AUDIT_REQUIREMENT}.${PCI_AUDIT_SUB_REQUIREMENT} ]]; then
+    mkdir ${PCI_AUDIT_TEMPDIR}/Req_${PCI_AUDIT_REQUIREMENT}/${PCI_AUDIT_REQUIREMENT}.${PCI_AUDIT_SUB_REQUIREMENT}
 fi
 
-cd ${PCI_AUDIT_SUB_REQUIREMENT}
-./${PCI_AUDIT_SUB_REQUIREMENT}.sh
+cd ${PCI_AUDIT_REQUIREMENT}.${PCI_AUDIT_SUB_REQUIREMENT}
+./${PCI_AUDIT_REQUIREMENT}.${PCI_AUDIT_SUB_REQUIREMENT}.sh
 
 # Return to the parent directory
 cd $(dirname $(get_script_dir))

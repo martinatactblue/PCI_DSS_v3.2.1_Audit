@@ -1,24 +1,26 @@
 #!/bin/bash
 
 # PCI DSS Requirements
-# 8.1.1 Assign all users a unique ID before allowing them to access system
-# components or cardholder data.
+# 8.1.2 Control addition, deletion, and modification of user IDs, credentials,
+# and other identifier objects.
 #
 # Testing Procedures
-# 8.1.1 Interview administrative personnel to confirm that all users are
-# assigned a unique ID for access to system components or cardholder data.
+# 8.1.2 For a sample of privileged user IDs and general user IDs, examine
+# associated authorizations and observe system settings to verify each user ID
+# and privileged user ID has been implemented with only the privileges specified
+# on the documented approval.
 
 set -euo pipefail
 
 source ${PCI_AUDIT_SCRIPT_DIR}/helpers.sh
 
-PCI_AUDIT_OUTPUT_DIR=${PCI_AUDIT_TEMPDIR}/${PCI_AUDIT_REQUIREMENT}/${PCI_AUDIT_SUB_REQUIREMENT}/${PCI_AUDIT_SUB_SUB_REQUIREMENT}
+PCI_AUDIT_OUTPUT_DIR=${PCI_AUDIT_TEMPDIR}/Req_${PCI_AUDIT_REQUIREMENT}/${PCI_AUDIT_REQUIREMENT}.${PCI_AUDIT_SUB_REQUIREMENT}/${PCI_AUDIT_REQUIREMENT}.${PCI_AUDIT_SUB_REQUIREMENT}.${PCI_AUDIT_SUB_SUB_REQUIREMENT}
 
 _debug 1 "Current location: $(get_script_dir)"
 _debug 1 "Current script: $0"
 
 _info "--------------------------------------------------"
-_info "Gathering information for Requirement ${PCI_AUDIT_SUB_SUB_REQUIREMENT}"
+_info "Gathering information for Requirement ${PCI_AUDIT_REQUIREMENT}.${PCI_AUDIT_SUB_REQUIREMENT}.${PCI_AUDIT_SUB_SUB_REQUIREMENT}"
 _info "--------------------------------------------------"
 
 _info "--------------------------------------------------"
