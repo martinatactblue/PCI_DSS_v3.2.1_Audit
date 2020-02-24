@@ -25,7 +25,7 @@ get_site_name
 
 # Create a temp directory
 # If there are issues with directory creation
-export PCI_AUDIT_TEMPDIR=${PCI_AUDIT_ROOT_DIR}/${PCI_AUDIT_SITENAME}-${PCI_AUDIT_DATE}-${HOSTNAME}
+export PCI_AUDIT_TEMPDIR=${PCI_AUDIT_ROOT_DIR}/${PCI_AUDIT_SITENAME}-${HOSTNAME}-${PCI_AUDIT_DATE}
 if [ ! -d "$PCI_AUDIT_ROOT_DIR" ]; then
         mkdir "$PCI_AUDIT_ROOT_DIR"
 fi
@@ -52,3 +52,11 @@ cd ${PCI_AUDIT_REQUIREMENT}
 cd $(dirname $(get_script_dir))
 
 _debug 1 "Current location: $(get_script_dir)"
+
+cd ${PCI_AUDIT_ROOT_DIR}/${PCI_AUDIT_SITENAME}-${HOSTNAME}-${PCI_AUDIT_DATE}
+tar cvzf ${PCI_AUDIT_ROOT_DIR}/${PCI_AUDIT_SITENAME}-${HOSTNAME}-${PCI_AUDIT_REQUIREMENT}-${PCI_AUDIT_DATE}.tgz ${PCI_AUDIT_REQUIREMENT}
+cd $(dirname ${PCI_AUDIT_ROOT_DIR})
+
+_debug 1 "Current location: $(get_script_dir)"
+
+_info "Audit archives are located in ${PCI_AUDIT_ROOT_DIR}"
