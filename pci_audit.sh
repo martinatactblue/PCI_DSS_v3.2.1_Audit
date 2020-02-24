@@ -7,15 +7,29 @@ set -euo pipefail
 PCI_AUDIT_VERSION=0.1.0
 PCI_AUDIT_DATE=$(date +%m.%d.%y-%H.%M)
 export DEBUG_LEVEL=${PCI_AUDIT_DEBUG_LEVEL:-0}
+export ARCHIVE_DEBUG_LEVEL=${PCI_AUDIT_ARCHIVE_DEBUG_LEVEL:-2}
+PCI_AUDIT_SITENAME=${PCI_AUDIT_SITENAME:-"notset"}
 
 source ./helpers.sh
 
 PCI_AUDIT_ROOT_DIR=$(get_script_dir)/Audit
 
 get_site_name() {
-    echo "Enter Site Name:"
-    read PCI_AUDIT_SITENAME
+    if [[ ${PCI_AUDIT_SITENAME} = "notset" ]]; then
+        echo "Enter Site Name:"
+        read PCI_AUDIT_SITENAME
+    fi
 }
+
+create_archive() {
+    if [[ ${DEBUG_LEVEL} -ge ${ARCHIVE_DEBUG_LEVEL} ]]; then
+        tar czvf ${PCI_AUDIT_ROOT_DIR}/${PCI_AUDIT_SITENAME}-${HOSTNAME}-${PCI_AUDIT_REQUIREMENT}-${PCI_AUDIT_DATE}.tgz ${PCI_AUDIT_REQUIREMENT}
+    else
+        tar czf ${PCI_AUDIT_ROOT_DIR}/${PCI_AUDIT_SITENAME}-${HOSTNAME}-${PCI_AUDIT_REQUIREMENT}-${PCI_AUDIT_DATE}.tgz ${PCI_AUDIT_REQUIREMENT}
+    fi
+}
+
+##### MAIN
 
 clear
 echo "                 PCI DSS 3.2.1 Audit v${PCI_AUDIT_VERSION}  "
@@ -54,7 +68,7 @@ cd $(dirname $(get_script_dir))
 _debug 1 "Current location: $(get_script_dir)"
 
 cd ${PCI_AUDIT_ROOT_DIR}/${PCI_AUDIT_SITENAME}-${HOSTNAME}-${PCI_AUDIT_DATE}
-tar cvzf ${PCI_AUDIT_ROOT_DIR}/${PCI_AUDIT_SITENAME}-${HOSTNAME}-${PCI_AUDIT_REQUIREMENT}-${PCI_AUDIT_DATE}.tgz ${PCI_AUDIT_REQUIREMENT}
+create_archive
 cd $(dirname ${PCI_AUDIT_ROOT_DIR})
 
 _debug 1 "Current location: $(get_script_dir)"
