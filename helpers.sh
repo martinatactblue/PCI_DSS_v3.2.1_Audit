@@ -14,23 +14,19 @@ colors() {
 }
 
 _info() {
-    colors
     echo -e "${DEFAULT}INFO: $*${RESET}"
 }
 
 _warn() {
-    colors
     echo -e "${YELLOW}WARNING: $*${RESET}"
 }
 
 _error() {
-    colors
     echo -e "${RED}ERROR: $*${RESET}"
 }
 
 _debug() {
     LEVEL=$1
-    colors
     shift
     if [[ ${DEBUG_LEVEL} -ge ${LEVEL} ]]; then
         echo -e "${CYAN}DEBUG: $*${RESET}"
@@ -47,3 +43,5 @@ get_script_dir() {
      $( cd -P "$( dirname "$SOURCE" )" )
      pwd
 }
+
+colors
