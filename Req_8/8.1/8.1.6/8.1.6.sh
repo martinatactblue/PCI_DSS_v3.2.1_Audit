@@ -22,7 +22,7 @@ _info "--------------------------------------------------"
 _info "Gathering information for Requirement ${PCI_AUDIT_REQUIREMENT}.${PCI_AUDIT_SUB_REQUIREMENT}.${PCI_AUDIT_SUB_SUB_REQUIREMENT}"
 _info "--------------------------------------------------"
 
-grep MaxAuthTries /etc/ssh/sshd_config >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Maximum_Logon_Attempt_Lockout.txt
+grep MaxAuthTries /etc/ssh/sshd_config >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Maximum_Logon_Attempt_Lockout.txt || true
 
 # Return to the parent directory
 cd $(dirname $(get_script_dir))

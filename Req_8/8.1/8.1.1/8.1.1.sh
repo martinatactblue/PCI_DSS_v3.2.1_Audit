@@ -25,7 +25,7 @@ _info "--------------------------------------------------"
 _info "Capturing User Information"
 _info "--------------------------------------------------"
 cat /etc/passwd | cut -d: -f1,5 >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Users.txt
-sudo cat /etc/shadow | cut -d: -f1,2 >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Users2.txt
+sudo cat /etc/shadow | cut -d: -f1,2 >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Users2.txt || true
 
 # Return to the parent directory
 cd $(dirname $(get_script_dir))

@@ -22,9 +22,9 @@ _info "--------------------------------------------------"
 _info "Gathering information for Requirement ${PCI_AUDIT_REQUIREMENT}.${PCI_AUDIT_SUB_REQUIREMENT}.${PCI_AUDIT_SUB_SUB_REQUIREMENT}"
 _info "--------------------------------------------------"
 
-grep ClientAliveInterval /etc/ssh/sshd_config >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Maximum_Session_Idle_Time.txt
-grep ClientAliveCountMax /etc/ssh/sshd_config >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Maximum_Session_Idle_Time.txt
-grep LoginGraceTime /etc/ssh/sshd_config >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Maximum_Login_Grace_Time.txt
+grep ClientAliveInterval /etc/ssh/sshd_config >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Maximum_Session_Idle_Time.txt || true
+grep ClientAliveCountMax /etc/ssh/sshd_config >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Maximum_Session_Idle_Time.txt || true
+grep LoginGraceTime /etc/ssh/sshd_config >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Maximum_Login_Grace_Time.txt || true
 
 # Return to the parent directory
 cd $(dirname $(get_script_dir))

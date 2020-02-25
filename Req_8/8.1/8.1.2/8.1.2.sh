@@ -33,10 +33,10 @@ _info "--------------------------------------------------"
 _info "Capturing Administrator Information"
 _info "--------------------------------------------------"
 grep -v -E "^#" /etc/passwd | awk -F: '$3 == 0 { print $1}' >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Administrators.txt
-sudo cat /etc/sudoers >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Administrators2.txt
+sudo cat /etc/sudoers >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Administrators2.txt || true
 if [[ -d /etc/sudoers.d ]]; then
     for fname in $(sudo ls /etc/sudoers.d/|grep -v README); do
-        sudo cat /etc/sudoers.d/${fname} >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Administrators2.txt
+        sudo cat /etc/sudoers.d/${fname} >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Administrators2.txt || true
     done
 fi
 awk -F: '($3 == "0") {print}' /etc/passwd >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Administrators3.txt
