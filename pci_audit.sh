@@ -12,7 +12,7 @@ PCI_AUDIT_SITENAME=${PCI_AUDIT_SITENAME:-"notset"}
 
 source ./helpers.sh
 
-PCI_AUDIT_ROOT_DIR=$(get_script_dir)/Audit
+PCI_AUDIT_ROOT_DIR=${PCI_AUDIT_ROOT_DIR:-$(get_script_dir)/Audit}
 
 get_site_name() {
     if [[ ${PCI_AUDIT_SITENAME} = "notset" ]]; then
@@ -23,9 +23,9 @@ get_site_name() {
 
 create_archive() {
     if [[ ${DEBUG_LEVEL} -ge ${ARCHIVE_DEBUG_LEVEL} ]]; then
-        tar czvf ${PCI_AUDIT_ROOT_DIR}/${PCI_AUDIT_SITENAME}-${HOSTNAME}-${PCI_AUDIT_REQUIREMENT}-${PCI_AUDIT_DATE}.tgz Req_${PCI_AUDIT_REQUIREMENT}
+        tar czvf ${PCI_AUDIT_ROOT_DIR}/${PCI_AUDIT_SITENAME}-${HOSTNAME}-${PCI_AUDIT_DATE}.tgz Req_${PCI_AUDIT_REQUIREMENT}
     else
-        tar czf ${PCI_AUDIT_ROOT_DIR}/${PCI_AUDIT_SITENAME}-${HOSTNAME}-${PCI_AUDIT_REQUIREMENT}-${PCI_AUDIT_DATE}.tgz Req_${PCI_AUDIT_REQUIREMENT}
+        tar czf ${PCI_AUDIT_ROOT_DIR}/${PCI_AUDIT_SITENAME}-${HOSTNAME}-${PCI_AUDIT_DATE}.tgz Req_${PCI_AUDIT_REQUIREMENT}
     fi
 }
 
@@ -74,3 +74,5 @@ cd $(dirname ${PCI_AUDIT_ROOT_DIR})
 _debug 1 "Current location: $(get_script_dir)"
 
 _info "Audit archives are located in ${PCI_AUDIT_ROOT_DIR}"
+
+exit 0
