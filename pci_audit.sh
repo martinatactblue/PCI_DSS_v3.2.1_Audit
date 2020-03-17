@@ -1,4 +1,4 @@
-#!/bin/bash
+    #!/bin/bash
 
 # PCI_Audit - Checks Linux systems for PCI Compliance
 
@@ -33,11 +33,20 @@ check_for_options() {
   :
 }
 
+usage() {
+  echo "Usage: $0 [-h]"
+  echo "       $0 [-d debug_level] [[-r requirement][ ...]"
+  exit 0
+}
+
 main() {
-  while getopts "d:r:" option; do
+  while getopts "hd:r:" option; do
     case "${option}" in
       "d")
         DEBUG_LEVEL="${OPTARG}"
+        ;;
+      "h")
+        usage
         ;;
       "r")
         REQUIREMENT+=("${OPTARG}")

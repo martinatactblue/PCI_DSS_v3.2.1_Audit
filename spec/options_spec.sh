@@ -22,7 +22,11 @@ Describe "Option check"
   End
 
   Describe "Help option"
-    Todo "Call with help option"
+    It "Call with help option"
+      When run source pci_audit.sh -h
+      The first line of output should include "Usage"
+      The status should eq 0
+    End
   End
 
   Describe "Debug option"
