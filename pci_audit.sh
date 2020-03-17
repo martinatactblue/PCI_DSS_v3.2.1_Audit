@@ -29,7 +29,25 @@ create_archive() {
   fi
 }
 
+check_for_options() {
+  :
+}
+
 main() {
+  while getopts "d:r:" option; do
+    case "${option}" in
+      "d")
+        DEBUG_LEVEL="${OPTARG}"
+        ;;
+      "r")
+        REQUIREMENT+=("${OPTARG}")
+        ;;
+      "*")
+        _error "${option} is an invalid option"
+        ;;
+    esac
+  done
+
   clear
   echo "                 PCI DSS 3.2.1 Audit v${PCI_AUDIT_VERSION}  "
   echo "------------------------------------------------------------"
