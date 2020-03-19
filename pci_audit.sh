@@ -8,6 +8,7 @@ PCI_AUDIT_VERSION=0.1.0
 PCI_AUDIT_DATE=${PCI_AUDIT_DATE:-$(date +%m.%d.%y-%H.%M)}
 export DEBUG_LEVEL=${PCI_AUDIT_DEBUG_LEVEL:-0}
 export ARCHIVE_DEBUG_LEVEL=${PCI_AUDIT_ARCHIVE_DEBUG_LEVEL:-2}
+export MAX_DEBUG_LEVEL=5
 PCI_AUDIT_SITENAME=${PCI_AUDIT_SITENAME:-"notset"}
 
 source ./helpers.sh
@@ -29,38 +30,60 @@ create_archive() {
   fi
 }
 
-check_for_options() {
-  :
+parse_requirements() {
+  if [[ -z ${REQUIREMENT[@]} ]]; then
+    _debug 1 "No requirements were passed"
+  fi
 }
 
 usage() {
   echo "Usage: $0 [-h]"
   echo "       $0 [-d debug_level] [[-r requirement][ ...]"
-  exit 0
 }
 
 main() {
-  while getopts "hd:r:" option; do
+  while getopts ":hd:r:s:o:" option; do
     case "${option}" in
       "d")
         DEBUG_LEVEL="${OPTARG}"
+        _debug 1 "Debugging enabled"
         ;;
       "h")
         usage
+        exit 0
+        ;;
+      "o")
+        PCI_AUDIT_ROOT_DIR="${OPTARG}"
         ;;
       "r")
         REQUIREMENT+=("${OPTARG}")
         ;;
-      "*")
-        _error "${option} is an invalid option"
+      "s")
+        PCI_AUDIT_SITENAME="${OPTARG}"
+        ;;
+      *)
+        usage
+        exit 1
         ;;
     esac
   done
 
+  # no options were provided or there was a mistake
+  # if [ "$OPTIND" -eq "1" ] || [ "$OPTIND" -le "$#" ]; then
+  if [[ "$OPTIND" -le "$#" ]]; then
+    usage
+    exit 1
+  fi
+
   clear
-  echo "                 PCI DSS 3.2.1 Audit v${PCI_AUDIT_VERSION}  "
+  if [ ${DEBUG_LEVEL} -ge ${MAX_DEBUG_LEVEL} ]; then
+    _debug 1 "Maximum Debugging enabled"
+    set -x # Turn on full debugging
+  fi
+  echo "                 PCI DSS 3.2.1 Audit v${PCI_AUDIT_VERSION}"
   echo "------------------------------------------------------------"
 
+  parse_requirements
   get_site_name
 
   # Create a temp directory
@@ -72,7 +95,7 @@ main() {
 
   if [ -d "$PCI_AUDIT_TEMPDIR" ]; then
   	_error "${PCI_AUDIT_TEMPDIR} already exists. Rename the folder to prevent data loss"
-      exit 1
+    exit 1
   else
       mkdir ${PCI_AUDIT_TEMPDIR}
   fi

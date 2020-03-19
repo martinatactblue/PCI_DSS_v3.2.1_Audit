@@ -13,9 +13,6 @@ Describe "Option check"
       When run source pci_audit.sh
       The first line of output should include "PCI DSS 3.2.1 Audit"
       The dir "${PCI_AUDIT_ROOT_DIR}" should be exist
-      The dir "${PCI_AUDIT_ROOT_DIR}/${PCI_AUDIT_SITENAME}-${HOSTNAME}-${PCI_AUDIT_DATE}/Req_8" should be exist
-      The dir "${PCI_AUDIT_ROOT_DIR}/${PCI_AUDIT_SITENAME}-${HOSTNAME}-${PCI_AUDIT_DATE}/Req_8/8.1" should be exist
-      The dir "${PCI_AUDIT_ROOT_DIR}/${PCI_AUDIT_SITENAME}-${HOSTNAME}-${PCI_AUDIT_DATE}/Req_8/8.1/8.1.4" should be exist
       The file "${PCI_AUDIT_ROOT_DIR}/${PCI_AUDIT_SITENAME}-${HOSTNAME}-${PCI_AUDIT_DATE}.tgz" should be exist
       The file "${PCI_AUDIT_ROOT_DIR}/${PCI_AUDIT_SITENAME}-${HOSTNAME}-${PCI_AUDIT_DATE}.tgz" should match pattern  "${PCI_AUDIT_ROOT_DIR}/${PCI_AUDIT_SITENAME}-${HOSTNAME}-??.??.??-??.??.tgz"
     End
@@ -24,31 +21,55 @@ Describe "Option check"
   Describe "Help option"
     It "Call with help option"
       When run source pci_audit.sh -h
-      The first line of output should include "Usage"
+      The first line of output should include "Usage:"
       The status should eq 0
     End
   End
 
   Describe "Debug option"
-    Todo "Call with debug option"
+    It "Call with debug option"
+      When run source pci_audit.sh -d 1
+      The line 1 of stdout should include "DEBUG: Debugging enabled"
+    End
+    It "Call with option but no argument"
+      When run source pci_audit.sh -d
+      The first line of output should include "Usage:"
+      The status should eq 1
+    End
   End
 
   Describe "Invalid option"
-    Todo "Call with invalid option"
+    It "Call with invalid option"
+      When run source pci_audit.sh -w
+      The first line of output should include "Usage:"
+      The status should eq 1
+    End
   End
 
-  Describe "Requirements option"
-    It "Call with single requirements option only (i.e 8)"
-      When run source pci_audit.sh -r 8
+  Describe "Sitename option"
+    It "Call with sitename"
+      When run source pci_audit.sh -s PCI_AUDIT_SITENAME
       The first line of output should include "PCI DSS 3.2.1 Audit"
-      The dir "${PCI_AUDIT_ROOT_DIR}" should be exist
-      The dir "${PCI_AUDIT_ROOT_DIR}/${PCI_AUDIT_SITENAME}-${HOSTNAME}-${PCI_AUDIT_DATE}/Req_8/8.1" should be exist
-      The dir "${PCI_AUDIT_ROOT_DIR}/${PCI_AUDIT_SITENAME}-${HOSTNAME}-${PCI_AUDIT_DATE}/Req_8/8.1/8.1.4" should be exist
-      The dir "${PCI_AUDIT_ROOT_DIR}/${PCI_AUDIT_SITENAME}-${HOSTNAME}-${PCI_AUDIT_DATE}/Req_8" should be exist
-      The file "${PCI_AUDIT_ROOT_DIR}/${PCI_AUDIT_SITENAME}-${HOSTNAME}-${PCI_AUDIT_DATE}.tgz" should be exist
-      The file "${PCI_AUDIT_ROOT_DIR}/${PCI_AUDIT_SITENAME}-${HOSTNAME}-${PCI_AUDIT_DATE}.tgz" should match pattern  "${PCI_AUDIT_ROOT_DIR}/${PCI_AUDIT_SITENAME}-${HOSTNAME}-??.??.??-??.??.tgz"
+      The file "${PCI_AUDIT_ROOT_DIR}/PCI_AUDIT_SITENAME-${HOSTNAME}-${PCI_AUDIT_DATE}.tgz" should be exist
+      The file "${PCI_AUDIT_ROOT_DIR}/PCI_AUDIT_SITENAME-${HOSTNAME}-${PCI_AUDIT_DATE}.tgz" should match pattern  "${PCI_AUDIT_ROOT_DIR}/PCI_AUDIT_SITENAME-${HOSTNAME}-??.??.??-??.??.tgz"
     End
-    Todo "Call with multiple requirements options (i.e 6 and 8)"
-    Todo "Call with multiple requirements options (i.e 8.1.4 and 8.1.6)"
+    It "Call with no argument"
+      When run source pci_audit.sh -s
+      The first line of output should include "Usage:"
+      The status should eq 1
+    End
+  End
+
+  Describe "Output option"
+    It "Call with output option"
+      When run source pci_audit.sh -o /tmp/TestAudit
+      The first line of output should include "PCI DSS 3.2.1 Audit"
+      The dir "/tmp/TestAudit" should be exist
+    End
+    It "Call with no argument"
+      When run source pci_audit.sh -o
+      The first line of output should include "Usage:"
+      The status should eq 1
+    End
   End
 End
