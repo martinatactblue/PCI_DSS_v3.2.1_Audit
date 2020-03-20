@@ -52,10 +52,6 @@ _info  "Capturing Currently Connected Users"
 _info "--------------------------------------------------"
 w >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Currently_Connected_Users.txt
 
-# if [[ -z ${PCI_AUDIT_SUB_REQUIREMENT} ]]; then
-#   PCI_AUDIT_SUB_REQUIREMENT=${PCI_AUDIT_SUB_REQUIREMENTS}
-# fi
-
 for sub_requirement in ${PCI_AUDIT_SUB_REQUIREMENT}; do
   export PCI_AUDIT_SUB_REQUIREMENT=${sub_requirement}
   _debug 2 "PCI_AUDIT_SUB_REQUIREMENT: ${PCI_AUDIT_SUB_REQUIREMENT}"
