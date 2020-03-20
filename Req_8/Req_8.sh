@@ -31,7 +31,10 @@ set -euo pipefail
 source ${PCI_AUDIT_SCRIPT_DIR}/helpers.sh
 
 PCI_AUDIT_OUTPUT_DIR=${PCI_AUDIT_TEMPDIR}/Req_${PCI_AUDIT_REQUIREMENT}
+PCI_AUDIT_SUB_REQUIREMENTS=1
+PCI_AUDIT_SUB_REQUIREMENT=${PCI_AUDIT_SUB_REQUIREMENT:-${PCI_AUDIT_SUB_REQUIREMENTS}}
 
+_debug 2 "PCI_AUDIT_SUB_REQUIREMENT: ${PCI_AUDIT_SUB_REQUIREMENT}"
 _debug 1 "Current location: $(get_script_dir)"
 _debug 1 "Current script: $0"
 
@@ -49,15 +52,22 @@ _info  "Capturing Currently Connected Users"
 _info "--------------------------------------------------"
 w >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Currently_Connected_Users.txt
 
-export PCI_AUDIT_SUB_REQUIREMENT=1
-if [[ ! -d ${PCI_AUDIT_TEMPDIR}/Req_${PCI_AUDIT_REQUIREMENT}/${PCI_AUDIT_REQUIREMENT}.${PCI_AUDIT_SUB_REQUIREMENT} ]]; then
+# if [[ -z ${PCI_AUDIT_SUB_REQUIREMENT} ]]; then
+#   PCI_AUDIT_SUB_REQUIREMENT=${PCI_AUDIT_SUB_REQUIREMENTS}
+# fi
+
+for sub_requirement in ${PCI_AUDIT_SUB_REQUIREMENT}; do
+  export PCI_AUDIT_SUB_REQUIREMENT=${sub_requirement}
+  _debug 2 "PCI_AUDIT_SUB_REQUIREMENT: ${PCI_AUDIT_SUB_REQUIREMENT}"
+  if [[ ! -d ${PCI_AUDIT_TEMPDIR}/Req_${PCI_AUDIT_REQUIREMENT}/${PCI_AUDIT_REQUIREMENT}.${PCI_AUDIT_SUB_REQUIREMENT} ]]; then
     mkdir ${PCI_AUDIT_TEMPDIR}/Req_${PCI_AUDIT_REQUIREMENT}/${PCI_AUDIT_REQUIREMENT}.${PCI_AUDIT_SUB_REQUIREMENT}
-fi
+  fi
 
-cd ${PCI_AUDIT_REQUIREMENT}.${PCI_AUDIT_SUB_REQUIREMENT}
-./${PCI_AUDIT_REQUIREMENT}.${PCI_AUDIT_SUB_REQUIREMENT}.sh
+  cd ${PCI_AUDIT_REQUIREMENT}.${PCI_AUDIT_SUB_REQUIREMENT}
+  ./${PCI_AUDIT_REQUIREMENT}.${PCI_AUDIT_SUB_REQUIREMENT}.sh
 
-# Return to the parent directory
-cd $(dirname $(get_script_dir))
+  # Return to the parent directory
+  cd $(dirname $(get_script_dir))
 
-_debug 1 "Current location: $(get_script_dir)"
+  _debug 1 "Current location: $(get_script_dir)"
+done

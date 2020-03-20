@@ -6,10 +6,11 @@ set -euo pipefail
 
 PCI_AUDIT_VERSION=0.1.0
 PCI_AUDIT_DATE=${PCI_AUDIT_DATE:-$(date +%m.%d.%y-%H.%M)}
-export DEBUG_LEVEL=${PCI_AUDIT_DEBUG_LEVEL:-0}
-export ARCHIVE_DEBUG_LEVEL=${PCI_AUDIT_ARCHIVE_DEBUG_LEVEL:-2}
+export DEBUG_LEVEL=${PCI_AUDIT_DEBUG_LEVEL-0}
+export ARCHIVE_DEBUG_LEVEL=${PCI_AUDIT_ARCHIVE_DEBUG_LEVEL-3}
 export MAX_DEBUG_LEVEL=5
-PCI_AUDIT_SITENAME=${PCI_AUDIT_SITENAME:-"notset"}
+PCI_AUDIT_SITENAME=${PCI_AUDIT_SITENAME-"notset"}
+export PCI_AUDIT_REQUIREMENTS=8
 
 source ./helpers.sh
 
@@ -23,22 +24,55 @@ get_site_name() {
 }
 
 create_archive() {
+  cd ${PCI_AUDIT_ROOT_DIR}/${PCI_AUDIT_SITENAME}-${HOSTNAME}-${PCI_AUDIT_DATE}
   if [[ ${DEBUG_LEVEL} -ge ${ARCHIVE_DEBUG_LEVEL} ]]; then
     tar czvf ${PCI_AUDIT_ROOT_DIR}/${PCI_AUDIT_SITENAME}-${HOSTNAME}-${PCI_AUDIT_DATE}.tgz Req_${PCI_AUDIT_REQUIREMENT}
   else
     tar czf ${PCI_AUDIT_ROOT_DIR}/${PCI_AUDIT_SITENAME}-${HOSTNAME}-${PCI_AUDIT_DATE}.tgz Req_${PCI_AUDIT_REQUIREMENT}
   fi
+  cd $(dirname ${PCI_AUDIT_ROOT_DIR})
 }
 
 parse_requirements() {
   if [[ -z ${REQUIREMENT[@]} ]]; then
     _debug 1 "No requirements were passed"
+    for requirement in ${PCI_AUDIT_REQUIREMENTS}; do
+      export PCI_AUDIT_REQUIREMENT=${requirement}
+      if [[ ! -d ${PCI_AUDIT_TEMPDIR}/Req_${PCI_AUDIT_REQUIREMENT} ]]; then
+        mkdir ${PCI_AUDIT_TEMPDIR}/Req_${PCI_AUDIT_REQUIREMENT}
+      fi
+
+      cd Req_${PCI_AUDIT_REQUIREMENT}
+      ./Req_${PCI_AUDIT_REQUIREMENT}.sh
+      cd $(dirname $(get_script_dir))
+
+      _debug 1 "Current location: $(get_script_dir)"
+    done
   fi
+
+  for argument in "${REQUIREMENT[@]}"; do
+    _debug 2 "Requirement Passed: ${argument}"
+    export PCI_AUDIT_REQUIREMENT=$(echo ${argument} | cut -d. -f1)
+    _debug 2 "PCI_AUDIT_REQUIREMENT: ${PCI_AUDIT_REQUIREMENT}"
+    export PCI_AUDIT_SUB_REQUIREMENT=$(echo ${argument} | cut -d. -f2 -s)
+    _debug 2 "PCI_AUDIT_SUB_REQUIREMENT: ${PCI_AUDIT_SUB_REQUIREMENT}"
+    export PCI_AUDIT_SUB_SUB_REQUIREMENT=$(echo ${argument} | cut -d. -f3 -s)
+    _debug 2 "PCI_AUDIT_SUB_SUB_REQUIREMENT: ${PCI_AUDIT_SUB_SUB_REQUIREMENT}"
+    if [[ ! -d ${PCI_AUDIT_TEMPDIR}/Req_${PCI_AUDIT_REQUIREMENT} ]]; then
+      mkdir ${PCI_AUDIT_TEMPDIR}/Req_${PCI_AUDIT_REQUIREMENT}
+    fi
+
+    cd Req_${PCI_AUDIT_REQUIREMENT}
+    ./Req_${PCI_AUDIT_REQUIREMENT}.sh
+    cd $(dirname $(get_script_dir))
+
+    _debug 1 "Current location: $(get_script_dir)"
+  done
 }
 
 usage() {
   echo "Usage: $0 [-h]"
-  echo "       $0 [-d debug_level] [[-r requirement][ ...]"
+  echo "       $0 [-d debug_level] [-s sitename] [[-r requirement][ ...] [-o directory]"
 }
 
 main() {
@@ -83,16 +117,15 @@ main() {
   echo "                 PCI DSS 3.2.1 Audit v${PCI_AUDIT_VERSION}"
   echo "------------------------------------------------------------"
 
-  parse_requirements
   get_site_name
 
   # Create a temp directory
-  # If there are issues with directory creation
   export PCI_AUDIT_TEMPDIR=${PCI_AUDIT_ROOT_DIR}/${PCI_AUDIT_SITENAME}-${HOSTNAME}-${PCI_AUDIT_DATE}
   if [ ! -d "$PCI_AUDIT_ROOT_DIR" ]; then
           mkdir "$PCI_AUDIT_ROOT_DIR"
   fi
 
+  # If there are issues with directory creation
   if [ -d "$PCI_AUDIT_TEMPDIR" ]; then
   	_error "${PCI_AUDIT_TEMPDIR} already exists. Rename the folder to prevent data loss"
     exit 1
@@ -105,20 +138,9 @@ main() {
 
   export PCI_AUDIT_SCRIPT_DIR=$(get_script_dir)
 
-  export PCI_AUDIT_REQUIREMENT=8
-  if [[ ! -d ${PCI_AUDIT_TEMPDIR}/Req_${PCI_AUDIT_REQUIREMENT} ]]; then
-      mkdir ${PCI_AUDIT_TEMPDIR}/Req_${PCI_AUDIT_REQUIREMENT}
-  fi
+  parse_requirements
 
-  cd Req_${PCI_AUDIT_REQUIREMENT}
-  ./Req_${PCI_AUDIT_REQUIREMENT}.sh
-  cd $(dirname $(get_script_dir))
-
-  _debug 1 "Current location: $(get_script_dir)"
-
-  cd ${PCI_AUDIT_ROOT_DIR}/${PCI_AUDIT_SITENAME}-${HOSTNAME}-${PCI_AUDIT_DATE}
   create_archive
-  cd $(dirname ${PCI_AUDIT_ROOT_DIR})
 
   _debug 1 "Current location: $(get_script_dir)"
 
