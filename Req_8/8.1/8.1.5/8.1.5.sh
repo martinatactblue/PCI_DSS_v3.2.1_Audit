@@ -1,4 +1,5 @@
 #!/bin/bash
+#shellcheck shell=bash
 
 # PCI DSS Requirements
 # 8.1.5 Manage IDs used by third parties to access, support, or maintain system

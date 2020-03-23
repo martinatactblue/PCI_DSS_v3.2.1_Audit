@@ -1,4 +1,5 @@
 #!/bin/bash
+#shellcheck shell=bash
 
 # PCI DSS Requirements
 # 8.1.8 If a session has been idle for more than 15 minutes, require the user to

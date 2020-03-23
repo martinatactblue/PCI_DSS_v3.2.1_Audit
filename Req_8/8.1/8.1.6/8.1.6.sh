@@ -1,4 +1,5 @@
 #!/bin/bash
+#shellcheck shell=bash
 
 # PCI DSS Requirements
 # 8.1.6 Limit repeated access attempts by locking out the user ID after not more

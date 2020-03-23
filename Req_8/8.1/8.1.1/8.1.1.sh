@@ -1,4 +1,5 @@
 #!/bin/bash
+#shellcheck shell=bash
 
 # PCI DSS Requirements
 # 8.1.1 Assign all users a unique ID before allowing them to access system

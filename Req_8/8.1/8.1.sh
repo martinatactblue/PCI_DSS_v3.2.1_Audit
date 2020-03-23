@@ -1,4 +1,5 @@
 #!/bin/bash
+#shellcheck shell=bash
 
 # PCI DSS Requirements
 # 8.1 Define and implement policies and procedures to ensure proper user

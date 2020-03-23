@@ -1,4 +1,5 @@
 #!/bin/bash
+#shellcheck shell=bash
 
 # PCI DSS Requirements
 # 8.1.7 Set the lockout duration to a minimum of 30 minutes or until an

@@ -1,4 +1,5 @@
-    #!/bin/bash
+#!/bin/bash
+#shellcheck shell=bash
 
 # PCI_Audit - Checks Linux systems for PCI Compliance
 
