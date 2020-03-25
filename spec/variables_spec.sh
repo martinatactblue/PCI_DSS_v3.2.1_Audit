@@ -29,6 +29,7 @@ Describe "Variable check"
       When run source pci_audit.sh
       The variable PCI_AUDIT_SITENAME should equal "TestSite"
       The line 1 of output should include "PCI DSS 3.2.1 Audit"
+      The stderr should include "WARNING: apt does not have a stable CLI interface"
     End
   End
 End

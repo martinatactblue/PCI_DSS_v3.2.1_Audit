@@ -12,6 +12,7 @@ Describe "Option check"
     It "Call with no arguments"
       When run source pci_audit.sh
       The first line of output should include "PCI DSS 3.2.1 Audit"
+      The stderr should include "WARNING: apt does not have a stable CLI interface"
       The dir "${PCI_AUDIT_ROOT_DIR}" should be exist
       The file "${PCI_AUDIT_ROOT_DIR}/${PCI_AUDIT_SITENAME}-${HOSTNAME}-${PCI_AUDIT_DATE}.tgz" should be exist
       The file "${PCI_AUDIT_ROOT_DIR}/${PCI_AUDIT_SITENAME}-${HOSTNAME}-${PCI_AUDIT_DATE}.tgz" should match pattern  "${PCI_AUDIT_ROOT_DIR}/${PCI_AUDIT_SITENAME}-${HOSTNAME}-??.??.??-??.??.tgz"
@@ -30,6 +31,7 @@ Describe "Option check"
     It "Call with debug option"
       When run source pci_audit.sh -d 1
       The line 1 of stdout should include "DEBUG: Debugging enabled"
+      The stderr should include "WARNING: apt does not have a stable CLI interface"
     End
     It "Call with option but no argument"
       When run source pci_audit.sh -d
@@ -50,6 +52,7 @@ Describe "Option check"
     It "Call with sitename"
       When run source pci_audit.sh -s PCI_AUDIT_SITENAME
       The first line of output should include "PCI DSS 3.2.1 Audit"
+      The stderr should include "WARNING: apt does not have a stable CLI interface"
       The file "${PCI_AUDIT_ROOT_DIR}/PCI_AUDIT_SITENAME-${HOSTNAME}-${PCI_AUDIT_DATE}.tgz" should be exist
       The file "${PCI_AUDIT_ROOT_DIR}/PCI_AUDIT_SITENAME-${HOSTNAME}-${PCI_AUDIT_DATE}.tgz" should match pattern  "${PCI_AUDIT_ROOT_DIR}/PCI_AUDIT_SITENAME-${HOSTNAME}-??.??.??-??.??.tgz"
     End
@@ -64,6 +67,7 @@ Describe "Option check"
     It "Call with output option"
       When run source pci_audit.sh -o /tmp/TestAudit
       The first line of output should include "PCI DSS 3.2.1 Audit"
+      The stderr should include "WARNING: apt does not have a stable CLI interface"
       The dir "/tmp/TestAudit" should be exist
     End
     It "Call with no argument"
