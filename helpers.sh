@@ -21,6 +21,10 @@ _warn() {
   echo -e "${YELLOW}WARNING: $*${RESET}"
 }
 
+_todo() {
+  echo -e "${MAGENTA}TODO: $*${RESET}"
+}
+
 _error() {
   echo -e "${RED}ERROR: $*${RESET}"
 }
