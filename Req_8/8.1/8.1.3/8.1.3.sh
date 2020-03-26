@@ -29,6 +29,7 @@ _info "--------------------------------------------------"
 _info "Capturing User Information"
 _info "--------------------------------------------------"
 cat /etc/passwd | cut -d: -f1,5 >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Users.txt
+_todo "Add listing of all users with authorized_keys Files"
 
 # Return to the parent directory
 cd $(dirname $(get_script_dir))

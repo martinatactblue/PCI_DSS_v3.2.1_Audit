@@ -21,8 +21,14 @@ _info "Gathering information for Requirement ${PCI_AUDIT_REQUIREMENT}.${PCI_AUDI
 _info "--------------------------------------------------"
 
 _info "--------------------------------------------------"
-_info "TODO: Not yet implemented"
+_info "Gathering Password Configuration Settings"
 _info "--------------------------------------------------"
 
+echo -e "Password Rules\n--------------" >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Password_Rules.txt
+grep PASS /etc/login.defs >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Password_Rules.txt || true
+for username in $(cat /etc/passwd|cut -d: -f1); do
+  echo -e "-----\n$username:" >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Password_Expirations.txt
+  sudo chage -l $username >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Password_Expirations.txt || true
+done
 # Return to the parent directory
 cd $(dirname $(get_script_dir))

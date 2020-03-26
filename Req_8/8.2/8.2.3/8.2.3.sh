@@ -27,8 +27,13 @@ _info "--------------------------------------------------"
 echo -e "Installed Password Libaries\n---------------------------" >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Password_Libraries.txt
 apt list|grep libpam|grep pass >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Password_Libraries.txt || true
 echo -e "Password Rules\n--------------" >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Password_Rules.txt
-grep -v \# /etc/pam.d/login >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Password_Rules.txt || true
-grep -v \# /etc/pam.d/common-password >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Password_Rules.txt || true
+echo "Operating System Defaults:" >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Password_Rules.txt
+echo "Minimum password length of 6 characters"  >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Password_Rules.txt
+echo "No check for both numeric and alphabetic characters" >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Password_Rules.txt
+echo "--------------" >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Password_Rules.txt
+
+grep minlen /etc/pam.d/login >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Password_Rules.txt || true
+grep minclass /etc/pam.d/common-password >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Password_Rules.txt || true
 
 # Return to the parent directory
 cd $(dirname $(get_script_dir))

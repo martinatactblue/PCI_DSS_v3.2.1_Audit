@@ -21,8 +21,14 @@ _info "Gathering information for Requirement ${PCI_AUDIT_REQUIREMENT}.${PCI_AUDI
 _info "--------------------------------------------------"
 
 _info "--------------------------------------------------"
-_info "TODO: Not yet implemented"
+_info "Gathering Password Configuration Settings"
 _info "--------------------------------------------------"
+
+echo -e "Password Rules\n--------------" >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Password_Rules.txt
+echo "Operating System Defaults:" >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Password_Rules.txt
+echo "No check for previously used passwords" >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Password_Rules.txt
+echo "--------------" >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Password_Rules.txt
+grep remember /etc/pam.d/login >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Password_Rules.txt || true
 
 # Return to the parent directory
 cd $(dirname $(get_script_dir))
