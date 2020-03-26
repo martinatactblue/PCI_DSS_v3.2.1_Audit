@@ -2,10 +2,14 @@
 #shellcheck shell=bash
 
 # PCI DSS Requirements
-#
+# 8.2.6 Set passwords/passphrases for first-time use and upon reset to a unique
+# value for each user, and change immediately after the first use.
 #
 # Testing Procedures
-#
+# 8.2.6 Examine password procedures and observe security personnel to verify
+# that first-time passwords/passphrases for new users, and reset
+# passwords/passphrases for existing users, are set to a unique value for each
+# user and changed after first use.
 
 set -euo pipefail
 

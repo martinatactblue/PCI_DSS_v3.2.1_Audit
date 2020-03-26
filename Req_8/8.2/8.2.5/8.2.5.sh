@@ -2,10 +2,18 @@
 #shellcheck shell=bash
 
 # PCI DSS Requirements
-#
+# 8.2.5 Do not allow an individual to submit a new password/passphrase that is
+# the same as any of the last four passwords/passphrases he or she has used.
 #
 # Testing Procedures
-#
+# 8.2.5.a For a sample of system components, obtain and inspect system
+# configuration settings to verify that password parameters are set to require
+# that new passwords/passphrases cannot be the same as the four previously used
+# passwords/passphrases.
+# 8.2.5.b Additional testing procedure for service provider assessments only:
+# Review internal processes and customer/user documentation to verify that new
+# non-consumer customer user passwords/passphrase cannot be the same as the
+# previous four passwords.
 
 set -euo pipefail
 

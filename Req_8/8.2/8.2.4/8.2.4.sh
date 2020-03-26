@@ -2,10 +2,18 @@
 #shellcheck shell=bash
 
 # PCI DSS Requirements
-#
+# 8.2.4 Change user passwords/passphrases at least once every 90 days.
 #
 # Testing Procedures
-#
+# 8.2.4.a For a sample of system components, inspect system configuration
+# settings to verify that user password/passphrase parameters are set to require
+# users to change passwords at least once every 90 days.
+# 8.2.4.b Additional testing procedure for service provider assessments only:
+# Review internal processes and customer/user documentation to verify that:
+# - Non-consumer customer user passwords/passphrases are required to change
+#   periodically; and
+# - Non-consumer customer users are given guidance as to when, and under what
+#   circumstances, passwords/passphrases must change.
 
 set -euo pipefail
 

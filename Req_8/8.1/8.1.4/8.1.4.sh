@@ -26,6 +26,8 @@ _info "Capturing User Information"
 _info "--------------------------------------------------"
 cat /etc/passwd | cut -d: -f1,5,7|grep -v nologin|grep -v false >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Enabled_Logins.txt
 last >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Last_Users_Connected.txt
+lastlog >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Last_Users_Connected2.txt
+lslogins -u >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Last_Users_Connected3.txt
 
 # Return to the parent directory
 cd $(dirname $(get_script_dir))
