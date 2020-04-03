@@ -131,6 +131,6 @@ Describe "Requirements Option check"
       The file "${PCI_AUDIT_ROOT_DIR}/${PCI_AUDIT_SITENAME}-${HOSTNAME}-${PCI_AUDIT_DATE}.tgz" should match pattern  "${PCI_AUDIT_ROOT_DIR}/${PCI_AUDIT_SITENAME}-${HOSTNAME}-??.??.??-??.??.tgz"
     End
 
-    Todo "Call with multiple options (i.e 6 and 8)"
+    Todo "Call with multiple options (i.e 3 and 8)"
   End
 End
