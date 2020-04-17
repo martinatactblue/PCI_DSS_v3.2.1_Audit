@@ -5,7 +5,7 @@
 
 set -euo pipefail
 
-PCI_AUDIT_VERSION=0.2.0
+PCI_AUDIT_VERSION=0.2.1
 PCI_AUDIT_DATE=${PCI_AUDIT_DATE:-$(date +%m.%d.%y-%H.%M)}
 export DEBUG_LEVEL=${PCI_AUDIT_DEBUG_LEVEL-0}
 export ARCHIVE_DEBUG_LEVEL=${PCI_AUDIT_ARCHIVE_DEBUG_LEVEL-3}
@@ -25,6 +25,7 @@ get_site_name() {
 }
 
 create_archive() {
+  _info "Packaging up the files"
   cd ${PCI_AUDIT_ROOT_DIR}/${PCI_AUDIT_SITENAME}-${HOSTNAME}-${PCI_AUDIT_DATE}
   if [[ ${DEBUG_LEVEL} -ge ${ARCHIVE_DEBUG_LEVEL} ]]; then
     tar czvf ${PCI_AUDIT_ROOT_DIR}/${PCI_AUDIT_SITENAME}-${HOSTNAME}-${PCI_AUDIT_DATE}.tgz Req_${PCI_AUDIT_REQUIREMENT}

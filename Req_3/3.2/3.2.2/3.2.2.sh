@@ -36,8 +36,10 @@ _info "Gathering history information"
 _info "--------------------------------------------------"
 for userdata in $(cat /etc/passwd|cut -d: -f1,7|grep -v nologin|grep -v false|grep -v sync); do
     username=$(echo $userdata|cut -d: -f1)
-    sudo -i -u $username HISTFILE=$(basename $HISTFILE) \
-        cat \$HOME/\$HISTFILE >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_${username}_history.txt || true
+    # HISTFILE=$(basename $HISTFILE) sudo -i -u $username \
+    # sudo -i -u $username HISTFILE=$(basename $HISTFILE) \
+    sudo -i -u $username \
+        cat \$HOME/.bash_history >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_${username}_history.txt || true
 done
 
 # Return to the parent directory

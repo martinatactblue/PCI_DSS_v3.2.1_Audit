@@ -25,7 +25,7 @@ _info "Gathering Password Configuration Settings"
 _info "--------------------------------------------------"
 
 echo -e "Installed Password Libaries\n---------------------------" >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Password_Libraries.txt
-apt list|grep libpam|grep pass >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Password_Libraries.txt || true
+dpkg --list|grep libpam|grep pass >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Password_Libraries.txt || true
 echo -e "Password Rules\n--------------" >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Password_Rules.txt
 echo "Operating System Defaults:" >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Password_Rules.txt
 echo "Minimum password length of 6 characters"  >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Password_Rules.txt
