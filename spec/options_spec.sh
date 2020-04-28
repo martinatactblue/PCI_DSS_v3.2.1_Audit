@@ -2,7 +2,7 @@
 
 Describe "Option check"
   setup1() { PCI_AUDIT_SITENAME='TestSite'; }
-  setup2() { PCI_AUDIT_ROOT_DIR="/tmp/Audit"; }
+  setup2() { PCI_AUDIT_ROOT_DIR="/tmp/TestAudit"; }
   setup3() { PCI_AUDIT_DATE=$(date +%m.%d.%y-%H.%M); }
   cleanup() { if [[ -d ${PCI_AUDIT_ROOT_DIR} ]]; then rm -r ${PCI_AUDIT_ROOT_DIR}; fi; }
   Before "setup1" "setup2" "setup3"

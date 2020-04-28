@@ -22,15 +22,19 @@ _info "Gathering information for Requirement ${PCI_AUDIT_REQUIREMENT}.${PCI_AUDI
 _info "--------------------------------------------------"
 
 _info "--------------------------------------------------"
-_info "Capturing Services Information"
+_info "Capturing Insecure Services Configurations"
 _info "--------------------------------------------------"
-cat /etc/services >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Service_Port_Assignments.txt
-service --status-all >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Services_Status.txt
-sudo systemctl list-sockets --show-types --all >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Service_Sockets.txt || true
-sudo netstat -antpx >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Active_Sockets.txt || true
-sudo netstat -antup >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Actve_Connections.txt || true
-sudo netstat -tulpn >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Actve_Server_Connections.txt || true
-lsof -i >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Open_Files.txt
+echo -e "xinetd\n------" >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Insecure_Services.txt
+cat /etc/xinetd.conf >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Insecure_Services.txt 2>&1 || true
+echo -e "YP/NIS\n------" >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Insecure_Services.txt
+cat /etc/yp.conf >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Insecure_Services.txt 2>&1 || true
+yptest >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Insecure_Services.txt 2>&1 || true
+echo -e "TFTPd\n------" >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Insecure_Services.txt
+cat /etc/inetd.conf >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Insecure_Services.txt 2>&1 || true
+cat /etc/default/tftpd-hpa >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Insecure_Services.txt 2>&1 || true
+echo -e "Telnet\n------" >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Insecure_Services.txt
+cat /etc/hosts.allow >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Insecure_Services.txt 2>&1 || true
+cat /etc/hosts.deny >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Insecure_Services.txt 2>&1 || true
 
 # Return to the parent directory
 cd $(dirname $(get_script_dir))

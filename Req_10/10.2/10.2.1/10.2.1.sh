@@ -2,16 +2,10 @@
 #shellcheck shell=bash
 
 # PCI DSS Requirements
-# 1.1.7 Requirement to review firewall and router rule sets at least every six
-# months.
+# 10.2.1 All individual user accesses to cardholder data
 #
 # Testing Procedures
-# 1.1.7.a Verify that firewall and router configuration standards require review
-# of firewall and router rule sets at least every six months.
-#
-# 1.1.7.b Examine documentation relating to rule set reviews and interview
-# responsible personnel to verify that the rule sets are reviewed at least every
-# six months.
+# 10.2.1 Verify all individual access to cardholder data is logged.
 
 set -euo pipefail
 
@@ -27,14 +21,9 @@ _info "Gathering information for Requirement ${PCI_AUDIT_REQUIREMENT}.${PCI_AUDI
 _info "--------------------------------------------------"
 
 _info "--------------------------------------------------"
-_info "Capturing Firewall Rulesets"
+_info "Capturing Log Info for User Creation"
 _info "--------------------------------------------------"
-sudo ufw status >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_UFW_Rulesets.txt || true
-
-_info "--------------------------------------------------"
-_info "Capturing IPTables Rulesets"
-_info "--------------------------------------------------"
-sudo iptables -L >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_IPTables_Rulesets.txt || true
+journalctl _COMM=useradd >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_User_Creation_Log.txt
 
 # Return to the parent directory
 cd $(dirname $(get_script_dir))

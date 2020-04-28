@@ -11,7 +11,8 @@ export DEBUG_LEVEL=${PCI_AUDIT_DEBUG_LEVEL-0}
 export ARCHIVE_DEBUG_LEVEL=${PCI_AUDIT_ARCHIVE_DEBUG_LEVEL-3}
 export MAX_DEBUG_LEVEL=5
 PCI_AUDIT_SITENAME=${PCI_AUDIT_SITENAME-"notset"}
-export PCI_AUDIT_REQUIREMENTS="3 8"
+export PCI_AUDIT_REQUIREMENT="1 2 3 6 8 10"
+REQUIREMENTS=
 
 source ./helpers.sh
 
@@ -30,15 +31,15 @@ create_archive() {
   if [[ ${DEBUG_LEVEL} -ge ${ARCHIVE_DEBUG_LEVEL} ]]; then
     tar czvf ${PCI_AUDIT_ROOT_DIR}/${PCI_AUDIT_SITENAME}-${HOSTNAME}-${PCI_AUDIT_DATE}.tgz Req_${PCI_AUDIT_REQUIREMENT}
   else
-    tar czf ${PCI_AUDIT_ROOT_DIR}/${PCI_AUDIT_SITENAME}-${HOSTNAME}-${PCI_AUDIT_DATE}.tgz Req_${PCI_AUDIT_REQUIREMENT}
+    tar czf ${PCI_AUDIT_ROOT_DIR}/${PCI_AUDIT_SITENAME}-${HOSTNAME}-${PCI_AUDIT_DATE}.tgz Req_*
   fi
   cd $(dirname ${PCI_AUDIT_ROOT_DIR})
 }
 
 parse_requirements() {
-  if [[ -z ${REQUIREMENT[@]} ]]; then
+  if [[ -z ${REQUIREMENTS[@]} ]]; then
     _debug 1 "No requirements were passed"
-    for requirement in ${PCI_AUDIT_REQUIREMENTS}; do
+    for requirement in ${PCI_AUDIT_REQUIREMENT}; do
       export PCI_AUDIT_REQUIREMENT=${requirement}
       if [[ ! -d ${PCI_AUDIT_TEMPDIR}/Req_${PCI_AUDIT_REQUIREMENT} ]]; then
         mkdir ${PCI_AUDIT_TEMPDIR}/Req_${PCI_AUDIT_REQUIREMENT}
@@ -52,8 +53,8 @@ parse_requirements() {
     done
   fi
 
-  for argument in "${REQUIREMENT[@]}"; do
-    _debug 2 "Requirement Passed: ${argument}"
+  for argument in ${REQUIREMENTS[@]}; do
+    _debug 2 "Argument Passed: ${argument}"
     export PCI_AUDIT_REQUIREMENT=$(echo ${argument} | cut -d. -f1)
     _debug 2 "PCI_AUDIT_REQUIREMENT: ${PCI_AUDIT_REQUIREMENT}"
     export PCI_AUDIT_SUB_REQUIREMENT=$(echo ${argument} | cut -d. -f2 -s)
@@ -92,7 +93,7 @@ main() {
         PCI_AUDIT_ROOT_DIR="${OPTARG}"
         ;;
       "r")
-        REQUIREMENT+=("${OPTARG}")
+        REQUIREMENTS+=("${OPTARG}")
         ;;
       "s")
         PCI_AUDIT_SITENAME="${OPTARG}"
@@ -103,6 +104,7 @@ main() {
         ;;
     esac
   done
+_debug 1 "Requirements: ${REQUIREMENTS}"
 
   # no options were provided or there was a mistake
   # if [ "$OPTIND" -eq "1" ] || [ "$OPTIND" -le "$#" ]; then
@@ -112,7 +114,7 @@ main() {
   fi
 
   clear
-  if [ ${DEBUG_LEVEL} -ge ${MAX_DEBUG_LEVEL} ]; then
+  if [[ ${DEBUG_LEVEL} -ge ${MAX_DEBUG_LEVEL} ]]; then
     _debug 1 "Maximum Debugging enabled"
     set -x # Turn on full debugging
   fi
@@ -123,12 +125,12 @@ main() {
 
   # Create a temp directory
   export PCI_AUDIT_TEMPDIR=${PCI_AUDIT_ROOT_DIR}/${PCI_AUDIT_SITENAME}-${HOSTNAME}-${PCI_AUDIT_DATE}
-  if [ ! -d "$PCI_AUDIT_ROOT_DIR" ]; then
+  if [[ ! -d "$PCI_AUDIT_ROOT_DIR" ]]; then
           mkdir "$PCI_AUDIT_ROOT_DIR"
   fi
 
   # If there are issues with directory creation
-  if [ -d "$PCI_AUDIT_TEMPDIR" ]; then
+  if [[ -d "$PCI_AUDIT_TEMPDIR" ]]; then
   	_error "${PCI_AUDIT_TEMPDIR} already exists. Rename the folder to prevent data loss"
     exit 1
   else

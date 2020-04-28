@@ -18,12 +18,23 @@ Describe "Variable check"
     End
   End
 
+  Describe "Root directory is set"
+    prepare() { PCI_AUDIT_ROOT_DIR='/tmp/TestAudit'; }
+    Before "prepare"
+
+    It 'Root directory is defined'
+      The value "$PCI_AUDIT_ROOT_DIR" should be defined
+      The variable PCI_AUDIT_ROOT_DIR should equal "/tmp/TestAudit"
+    End
+  End
 
   Describe "Called with no arguments"
     setup1() { PCI_AUDIT_SITENAME="TestSite"; }
-    setup2() { PCI_AUDIT_ROOT_DIR="/tmp/Audit"; }
+    setup2() { PCI_AUDIT_ROOT_DIR="/tmp/TestAudit"; }
     setup3() { PCI_AUDIT_DATE=$(date +%m.%d.%y-%H.%M); }
+    cleanup() { if [[ -d ${PCI_AUDIT_ROOT_DIR} ]]; then rm -r ${PCI_AUDIT_ROOT_DIR}; fi; }
     Before "setup1" "setup2" "setup3"
+    After "cleanup"
 
     It "provides output"
       When run source pci_audit.sh

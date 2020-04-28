@@ -2,37 +2,21 @@
 #shellcheck shell=bash
 
 # PCI DSS Requirements
-# Requirement 1: Install and maintain a firewall configuration to protect
+# Requirement 10: Track and monitor all access to network resources and
 # cardholder data
-# Firewalls are devices that control computer traffic allowed between an
-# entity’s networks (internal) and untrusted networks (external), as well as
-# traffic into and out of more sensitive areas within an entity’s internal
-# trusted networks. The cardholder data environment is an example of a more
-# sensitive area within an entity’s trusted network.
 #
-# A firewall examines all network traffic and blocks those transmissions that do
-# not meet the specified security criteria.
-#
-# All systems must be protected from unauthorized access from untrusted
-# networks, whether entering the system via the Internet as e-commerce,
-# employee Internet access through desktop browsers, employee e-mail access,
-# dedicated connections such as business-to-business connections, via wireless
-# networks, or via other sources. Often, seemingly insignificant paths to and
-# from untrusted networks can provide unprotected pathways into key systems.
-# Firewalls are a key protection mechanism for any computer network.
-#
-# Other system components may provide firewall functionality, as long as they
-# meet the minimum requirements for firewalls as defined in Requirement 1.
-# Where other system components are used within the cardholder data environment
-# to provide firewall functionality, these devices must be included within the
-# scope and assessment of Requirement 1.
+# Logging mechanisms and the ability to track user activities are critical in
+# preventing, detecting, or minimizing the impact of a data compromise. The
+# presence of logs in all environments allows thorough tracking, alerting, and
+# analysis when something does go wrong. Determining the cause of a compromise
+# is very difficult, if not impossible, without system activity logs.
 
 set -euo pipefail
 
 source ${PCI_AUDIT_SCRIPT_DIR}/helpers.sh
 
 PCI_AUDIT_OUTPUT_DIR=${PCI_AUDIT_TEMPDIR}/Req_${PCI_AUDIT_REQUIREMENT}
-PCI_AUDIT_SUB_REQUIREMENTS="1 2"
+PCI_AUDIT_SUB_REQUIREMENTS="1 2" # 3 4 5
 PCI_AUDIT_SUB_REQUIREMENT=${PCI_AUDIT_SUB_REQUIREMENT:-${PCI_AUDIT_SUB_REQUIREMENTS}}
 
 _debug 2 "PCI_AUDIT_SUB_REQUIREMENT: ${PCI_AUDIT_SUB_REQUIREMENT}"

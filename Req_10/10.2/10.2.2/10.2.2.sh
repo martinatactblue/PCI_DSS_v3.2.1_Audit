@@ -2,16 +2,12 @@
 #shellcheck shell=bash
 
 # PCI DSS Requirements
-# 1.1.7 Requirement to review firewall and router rule sets at least every six
-# months.
+# 10.2.2 All actions taken by any individual with root or administrative
+# privileges
 #
 # Testing Procedures
-# 1.1.7.a Verify that firewall and router configuration standards require review
-# of firewall and router rule sets at least every six months.
-#
-# 1.1.7.b Examine documentation relating to rule set reviews and interview
-# responsible personnel to verify that the rule sets are reviewed at least every
-# six months.
+# 10.2.2 Verify all actions taken by any individual with root or administrative
+# privileges are logged.
 
 set -euo pipefail
 
@@ -27,14 +23,15 @@ _info "Gathering information for Requirement ${PCI_AUDIT_REQUIREMENT}.${PCI_AUDI
 _info "--------------------------------------------------"
 
 _info "--------------------------------------------------"
-_info "Capturing Firewall Rulesets"
+_info "Capturing Log Info for root/administrative Access"
 _info "--------------------------------------------------"
-sudo ufw status >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_UFW_Rulesets.txt || true
+journalctl -o cat _COMM=sudo >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Root_Access_Log.txt
+cat /var/log/auth.log >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Root_Access_Log2.txt 2>&1 || true
 
 _info "--------------------------------------------------"
-_info "Capturing IPTables Rulesets"
+_info "Capturing Log Info for Alternative User Access"
 _info "--------------------------------------------------"
-sudo iptables -L >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_IPTables_Rulesets.txt || true
+journalctl -o cat _COMM=su >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Alternative_User_Access_Log.txt
 
 # Return to the parent directory
 cd $(dirname $(get_script_dir))

@@ -30,13 +30,12 @@ _info "--------------------------------------------------"
 _info "--------------------------------------------------"
 _info "Capturing Services Information"
 _info "--------------------------------------------------"
-cat /etc/services >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Service_Port_Assignments.txt
+cat /etc/services >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Service_Port_Assignments.txt 2>&1 || true
 service --status-all >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Services_Status.txt
 sudo systemctl list-sockets --show-types --all >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Service_Sockets.txt || true
 sudo netstat -antpx >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Active_Sockets.txt || true
 sudo netstat -antup >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Actve_Connections.txt || true
 sudo netstat -tulpn >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Actve_Server_Connections.txt || true
-lsof -i >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Open_Files.txt
 
 # Return to the parent directory
 cd $(dirname $(get_script_dir))

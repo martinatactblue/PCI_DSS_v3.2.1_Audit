@@ -39,7 +39,7 @@ for userdata in $(cat /etc/passwd|cut -d: -f1,7|grep -v nologin|grep -v false|gr
     # HISTFILE=$(basename $HISTFILE) sudo -i -u $username \
     # sudo -i -u $username HISTFILE=$(basename $HISTFILE) \
     sudo -i -u $username \
-        cat \$HOME/.bash_history >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_${username}_history.txt || true
+        cat \$HOME/.bash_history 2>> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_${username}_history.txt || true
 done
 
 # Return to the parent directory

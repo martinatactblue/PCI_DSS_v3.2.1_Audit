@@ -2,25 +2,21 @@
 #shellcheck shell=bash
 
 # PCI DSS Requirements
-# 6.4 Follow change control processes and procedures for all changes to system
-# components.
+# 10.1 Implement audit trails to link all access to system components to each
+# individual user.
 #
 # Testing Procedures
-# 6.4 Examine policies and procedures to verify the following are defined:
-# - Development/test environments are separate from production environments with
-#   access control in place to enforce separation.
-# - A separation of duties between personnel assigned to the development/test
-#   environments and those assigned to the production environment.
-# - Production data (live PANs) are not used for testing or development.
-# - Test data and accounts are removed before a production system becomes active.
-# - Change control procedures related to implementing security patches and
-#   software modifications are documented.
+# 10.1 Verify, through observation and interviewing the system administrator,
+# that:
+# - Audit trails are enabled and active for system components.
+# - Access to system components is linked to individual users.
 
 set -euo pipefail
 
 source ${PCI_AUDIT_SCRIPT_DIR}/helpers.sh
 
-PCI_AUDIT_SUB_SUB_REQUIREMENTS="1 4"
+PCI_AUDIT_OUTPUT_DIR=${PCI_AUDIT_TEMPDIR}/Req_${PCI_AUDIT_REQUIREMENT}/${PCI_AUDIT_REQUIREMENT}.${PCI_AUDIT_SUB_REQUIREMENT}
+PCI_AUDIT_SUB_SUB_REQUIREMENTS=""
 PCI_AUDIT_SUB_SUB_REQUIREMENT=${PCI_AUDIT_SUB_SUB_REQUIREMENT:-${PCI_AUDIT_SUB_SUB_REQUIREMENTS}}
 
 _debug 1 "Current location: $(get_script_dir)"
@@ -29,6 +25,12 @@ _debug 1 "Current script: $0"
 _info "--------------------------------------------------"
 _info "Gathering information for Requirement ${PCI_AUDIT_REQUIREMENT}.${PCI_AUDIT_SUB_REQUIREMENT}"
 _info "--------------------------------------------------"
+
+_info "--------------------------------------------------"
+_info "Capturing Logging Information "
+_info "--------------------------------------------------"
+cat /etc/rsyslog.conf >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Log_Settings.txt
+cat /etc/rsyslog.d/* >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Log_Settings2.txt
 
 if [[ ! -d ${PCI_AUDIT_TEMPDIR}/Req_${PCI_AUDIT_REQUIREMENT}/${PCI_AUDIT_REQUIREMENT}.${PCI_AUDIT_SUB_REQUIREMENT} ]]; then
     mkdir ${PCI_AUDIT_TEMPDIR}/Req_${PCI_AUDIT_REQUIREMENT}/${PCI_AUDIT_REQUIREMENT}.${PCI_AUDIT_SUB_REQUIREMENT}

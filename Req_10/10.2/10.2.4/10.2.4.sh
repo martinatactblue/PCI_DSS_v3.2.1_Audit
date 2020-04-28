@@ -2,16 +2,10 @@
 #shellcheck shell=bash
 
 # PCI DSS Requirements
-# 1.1.7 Requirement to review firewall and router rule sets at least every six
-# months.
+# 10.2.4 Invalid login access attempts
 #
 # Testing Procedures
-# 1.1.7.a Verify that firewall and router configuration standards require review
-# of firewall and router rule sets at least every six months.
-#
-# 1.1.7.b Examine documentation relating to rule set reviews and interview
-# responsible personnel to verify that the rule sets are reviewed at least every
-# six months.
+# 10.2.4 Verify invalid login access attempts are logged.
 
 set -euo pipefail
 
@@ -27,14 +21,10 @@ _info "Gathering information for Requirement ${PCI_AUDIT_REQUIREMENT}.${PCI_AUDI
 _info "--------------------------------------------------"
 
 _info "--------------------------------------------------"
-_info "Capturing Firewall Rulesets"
+_info "Capturing Invalid Login Attempts"
 _info "--------------------------------------------------"
-sudo ufw status >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_UFW_Rulesets.txt || true
+grep -i "Failed password" /var/log/auth.log 2>> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Invalid_Login_Attempts.txt || true
 
-_info "--------------------------------------------------"
-_info "Capturing IPTables Rulesets"
-_info "--------------------------------------------------"
-sudo iptables -L >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_IPTables_Rulesets.txt || true
 
 # Return to the parent directory
 cd $(dirname $(get_script_dir))
