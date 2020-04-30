@@ -2,10 +2,15 @@
 #shellcheck shell=bash
 
 # PCI DSS Requirements
-# 10.2.4 Invalid login access attempts
+# 10.4.3 Time settings are received from industry-accepted time sources.
 #
 # Testing Procedures
-# 10.2.4 Verify invalid login access attempts are logged.
+# 10.4.3 Examine systems configurations to verify that the time server(s) accept
+# time updates from specific, industry-accepted external sources (to prevent a
+# malicious individual from changing the clock). Optionally, those updates can
+# be encrypted with a symmetric key, and access control lists can be created
+# that specify the IP addresses of client machines that will be provided with
+# the time updates (to prevent unauthorized use of internal time servers).
 
 set -euo pipefail
 
@@ -21,10 +26,11 @@ _info "Gathering information for Requirement ${PCI_AUDIT_REQUIREMENT}.${PCI_AUDI
 _info "--------------------------------------------------"
 
 _info "--------------------------------------------------"
-_info "Capturing Invalid Login Attempts"
+_info "Capturing Time Source Information"
 _info "--------------------------------------------------"
-grep -i "Failed password" /var/log/auth.log >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Invalid_Login_Attempts.txt 2>&1 || true
-sudo lastb >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Invalid_Login_Attempts2.txt 2>&1 || true
+cat /etc/systemd/timesyncd.conf >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Time_Source.txt 2>&1 || true
+cat /etc/ntp.conf >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Time_Source2.txt 2>&1 || true
+journalctl |grep -i time >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Time_Source3.txt 2>&1 || true
 
 # Return to the parent directory
 cd $(dirname $(get_script_dir))

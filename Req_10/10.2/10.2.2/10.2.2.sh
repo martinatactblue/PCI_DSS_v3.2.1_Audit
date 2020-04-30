@@ -27,6 +27,7 @@ _info "Capturing Log Info for root/administrative Access"
 _info "--------------------------------------------------"
 journalctl -o cat _COMM=sudo >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Root_Access_Log.txt
 cat /var/log/auth.log >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Root_Access_Log2.txt 2>&1 || true
+journalctl -u cron >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Root_Access_Log3.txt 2>&1 || true
 
 _info "--------------------------------------------------"
 _info "Capturing Log Info for Alternative User Access"

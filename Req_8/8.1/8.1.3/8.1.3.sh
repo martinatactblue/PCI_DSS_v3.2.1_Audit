@@ -29,7 +29,14 @@ _info "--------------------------------------------------"
 _info "Capturing User Information"
 _info "--------------------------------------------------"
 cat /etc/passwd | cut -d: -f1,5 >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Users.txt
-_todo "Add listing of all users with authorized_keys Files"
+
+_info "--------------------------------------------------"
+_info "Capturing Remote Access Information"
+_info "--------------------------------------------------"
+echo "No .shost files allowed:" >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Shosts_Files.txt
+sudo find / -name '*.shosts' >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Shosts_Files.txt 2>&1 || true
+echo "Authorized keys files:" >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Authorized_Keys_Files.txt
+sudo find / -name authorized_keys >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Authorized_Keys_Files.txt 2>&1 || true
 
 # Return to the parent directory
 cd $(dirname $(get_script_dir))

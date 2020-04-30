@@ -2,10 +2,25 @@
 #shellcheck shell=bash
 
 # PCI DSS Requirements
+# 8.2.3 Passwords/passphrases must meet the following:
+# - Require a minimum length of at least seven characters.
+# - Contain both numeric and alphabetic characters.
 #
+# Alternatively, the passwords/ passphrases must have complexity and strength at
+# least equivalent to the parameters specified above.
 #
 # Testing Procedures
-#
+# 8.2.3a For a sample of system components, inspect system configuration
+# settings to verify that user password/passphrase parameters are set to require
+# at least the following strength/complexity:
+# - Require a minimum length of at least seven characters.
+# - Contain both numeric and alphabetic characters.
+# 8.2.3.b Additional testing procedure for service provider assessments only:
+# Review internal processes and customer/user documentation to verify that
+# non-consumer customer passwords/passphrases are required to meet at least the
+# following strength/complexity:
+# - Require a minimum length of at least seven characters.
+# - Contain both numeric and alphabetic characters.
 
 set -euo pipefail
 

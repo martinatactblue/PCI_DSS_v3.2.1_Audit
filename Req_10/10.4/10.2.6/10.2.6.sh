@@ -2,10 +2,12 @@
 #shellcheck shell=bash
 
 # PCI DSS Requirements
-# 10.2.4 Invalid login access attempts
+# 10.2.6 Initialization, stopping, or pausing of the audit logs
 #
 # Testing Procedures
-# 10.2.4 Verify invalid login access attempts are logged.
+# 10.2.6 Verify the following are logged:
+#        - Initialization of audit logs
+#        - Stopping or pausing of audit logs.
 
 set -euo pipefail
 
@@ -21,10 +23,11 @@ _info "Gathering information for Requirement ${PCI_AUDIT_REQUIREMENT}.${PCI_AUDI
 _info "--------------------------------------------------"
 
 _info "--------------------------------------------------"
-_info "Capturing Invalid Login Attempts"
+_info "Capturing Audit Log Restarts"
 _info "--------------------------------------------------"
-grep -i "Failed password" /var/log/auth.log >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Invalid_Login_Attempts.txt 2>&1 || true
-sudo lastb >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Invalid_Login_Attempts2.txt 2>&1 || true
+last reboot >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Audit_Log_Restarts.txt 2>&1 || true
+sudo lastb reboot >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Audit_Log_Restarts.txt 2>&1 || true
+
 
 # Return to the parent directory
 cd $(dirname $(get_script_dir))

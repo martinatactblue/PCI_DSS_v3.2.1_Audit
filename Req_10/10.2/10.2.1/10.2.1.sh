@@ -25,5 +25,11 @@ _info "Capturing Log Info for User Creation"
 _info "--------------------------------------------------"
 journalctl _COMM=useradd >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_User_Creation_Log.txt
 
+_info "--------------------------------------------------"
+_info "Capturing User Access Log Info"
+_info "--------------------------------------------------"
+last -aiF >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_User_Access_Log.txt
+journalctl -u ssh >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_User_Access_Log2.txt
+
 # Return to the parent directory
 cd $(dirname $(get_script_dir))

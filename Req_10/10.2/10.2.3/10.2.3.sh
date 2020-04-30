@@ -23,8 +23,8 @@ _info "--------------------------------------------------"
 _info "--------------------------------------------------"
 _info "Capturing Audit Trail Access"
 _info "--------------------------------------------------"
-cat /etc/audit.rules 2>> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Audit_Trail_Access.txt || true
-
+cat /etc/audit.rules >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Audit_Trail_Access.txt 2>&1 || true
+cat /etc/systemd/journald.conf >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Journal_Config.txt 2>&1 || true
 
 # Return to the parent directory
 cd $(dirname $(get_script_dir))

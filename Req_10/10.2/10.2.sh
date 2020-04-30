@@ -12,7 +12,7 @@
 # 10.2.4 Invalid login access attempts
 # 10.2.5 Use of and changes to identification and authentication
 #        mechanisms—including but not limited to creation of new accounts and
-#        elevatioN of privileges—and all changes, additions, or deletions to
+#        elevation of privileges—and all changes, additions, or deletions to
 #        accounts with root or administrative privileges
 # 10.2.6 Initialization, stopping, or pausing of the audit logs
 # 10.2.7 Creation and deletion of system- level objects
@@ -39,7 +39,7 @@ set -euo pipefail
 source ${PCI_AUDIT_SCRIPT_DIR}/helpers.sh
 
 PCI_AUDIT_OUTPUT_DIR=${PCI_AUDIT_TEMPDIR}/Req_${PCI_AUDIT_REQUIREMENT}/${PCI_AUDIT_REQUIREMENT}.${PCI_AUDIT_SUB_REQUIREMENT}
-PCI_AUDIT_SUB_SUB_REQUIREMENTS="1 2 3 4" # 5 6 7"
+PCI_AUDIT_SUB_SUB_REQUIREMENTS="1 2 3 4 5 6"
 PCI_AUDIT_SUB_SUB_REQUIREMENT=${PCI_AUDIT_SUB_SUB_REQUIREMENT:-${PCI_AUDIT_SUB_SUB_REQUIREMENTS}}
 
 _debug 1 "Current location: $(get_script_dir)"
