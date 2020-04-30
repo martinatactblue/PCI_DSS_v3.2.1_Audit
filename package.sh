@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-version=0.2.1
+version=0.3.0
 # Make sure all the scripts are executable
 chmod 755 pci_audit.sh
 tar cvf pci_audit_${version}.tar pci_audit.sh helpers.sh

@@ -16,3 +16,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Adds Requirement 3
+
+## [0.2.1] - 2020-04-17
+
+### Added
+
+- Adds Requirements 1 and 2
+
+## [0.3.0] - 2020-04-30
+
+### Added
+
+- Adds Requirement 10
+- All requirements are now included
+
+### Fixed
+
+- Failing tests
+
+### Removed
+
+- 10.2.6 script (under 10.4)
