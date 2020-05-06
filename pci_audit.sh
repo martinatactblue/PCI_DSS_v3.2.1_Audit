@@ -1,11 +1,11 @@
 #!/bin/bash
 #shellcheck shell=bash
 
-# PCI_Audit - Checks Linux systems for PCI Compliance
+# PCI_Audit - Gathers evidence from Linux systems for PCI Compliance
 
 set -euo pipefail
 
-PCI_AUDIT_VERSION=0.3.0
+PCI_AUDIT_VERSION=0.3.1
 PCI_AUDIT_DATE=${PCI_AUDIT_DATE:-$(date +%m.%d.%y-%H.%M)}
 export DEBUG_LEVEL=${PCI_AUDIT_DEBUG_LEVEL-0}
 export ARCHIVE_DEBUG_LEVEL=${PCI_AUDIT_ARCHIVE_DEBUG_LEVEL-3}

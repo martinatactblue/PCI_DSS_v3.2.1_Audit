@@ -35,6 +35,8 @@ _info "Capturing Remote Access Information"
 _info "--------------------------------------------------"
 echo "No .shost files allowed:" >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Shosts_Files.txt
 sudo find / -name '*.shosts' >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Shosts_Files.txt 2>&1 || true
+echo "No shosts.equiv files allowed:" >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Shosts_Files.txt
+sudo find / -name shosts.equiv >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Shosts_Files.txt 2>&1 || true
 echo "Authorized keys files:" >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Authorized_Keys_Files.txt
 sudo find / -name authorized_keys >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_Authorized_Keys_Files.txt 2>&1 || true
 

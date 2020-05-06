@@ -32,7 +32,7 @@ _info "--------------------------------------------------"
 _info "--------------------------------------------------"
 _info "Capturing Mod Security WAF Configuration"
 _info "--------------------------------------------------"
-cat /etc/apache2/mods-enabled/mod-security.conf 2>> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_ModSecurity_WAF_Config.txt || true
+cat /etc/apache2/mods-enabled/mod-security.conf >> ${PCI_AUDIT_OUTPUT_DIR}/${HOSTNAME}_ModSecurity_WAF_Config.txt 2<&1 || true
 
 # Return to the parent directory
 cd $(dirname $(get_script_dir))
