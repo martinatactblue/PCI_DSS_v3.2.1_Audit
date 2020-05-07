@@ -67,22 +67,29 @@ variables that can be used for this purpose. The variables can either be preset
 in the environment or can be pre-pended to the command line when invoking the
 tool.
 ## PCI_AUDIT_DATE
-The PCI_AUDIT_DATE is a component of the generated filename for the GZIP tar
+PCI_AUDIT_DATE is a component of the generated filename for the GZIP tar
 file name used to store evidence. It is also in the name of the directory used
 to store the  file. By default it is of the date format `%m.%d.%y-%H.%M` and is
 set to the invocation time of the script.
 ## PCI_AUDIT_ROOT_DIR
-The PCI_AUDIT_ROOT_DIR is the top of a directory tree where the evidence files
+PCI_AUDIT_ROOT_DIR is the top of a directory tree where the evidence files
 are gathered and the GZIP tar file is created. If not specified, it defaults to
 creating a directory named `Audit` in the directory which contains the
 `pci_audit` script.
 ## PCI_AUDIT_SITENAME
-The PCI_AUDIT_SITENAME is a component of the generated filename for the GZIP tar
+PCI_AUDIT_SITENAME is a component of the generated filename for the GZIP tar
 file name used to store evidence. It is also in the name of the directory used
 to store the  file. If not set, you will be prompted to enter a sitename.
 ## PCI_AUDIT_DEBUG_LEVEL
+PCI_AUDIT_DEBUG_LEVEL is used to display debugging information while the tool is
+running. By default, debugging is disabled. The debug level can be set from 1 to
+5. If set to 5, every executed line of the tool is displayed.
 ## PCI_AUDIT_ARCHIVE_DEBUG_LEVEL
-
+PCI_AUDIT_ARCHIVE_DEBUG_LEVEL is used to display the contents of the GZIP tar
+file during file creation. Normally, the tar file is created silently.
+The default debug level is 3. Setting this value to a lower level will allow you
+to view the contents of the GZIP archive without enabling a higher level of
+debugging.
 # Testing
 The tool can be tested via the `shellspec` test tool. If shellspec is installed,
 the full test suite can be run by executing `shellspec -s /bin/bash -f d`.
