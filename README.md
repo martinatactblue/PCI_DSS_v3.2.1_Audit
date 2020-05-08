@@ -53,12 +53,12 @@ allowed.
 **Note:** Providing a top-level requirement along with the secondary or tertiary
 requirement of the same group (i.e. supplying 8 and 8.1, or 8 and 8.1.3) will
 result in evidence collection for all secondary and tertiary requirements being
-gathered under requirwement 8, for example. Likewise, requesting requirements 8.1
+gathered under requirement 8, for example. Likewise, requesting requirements 8.1
 and 8.1.3 will result in data collection for all the tertiary requirements under
 requirement 8.1. Conversely, requesting requirements 2.2.5 and 8.2.1 will result
 in data collection for only those two requirements.
 
-** If no requirements are specified, the tool will gather evidence for all the
+**If no requirements are specified, the tool will gather evidence for all the
 top-level, secondary, and tertiary requirements that the tool covers.**
 
 # Variables
